@@ -9,15 +9,14 @@ import modele.Destroyer;
 import modele.SousMarin;
 
 import java.awt.Color;
-import java.io.Console;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 
 
 public class GrilleConsole implements IGrille{
@@ -25,12 +24,11 @@ public class GrilleConsole implements IGrille{
  
 	private static final int SML_SIDE = 15;
     private static final int SIDE = SML_SIDE * SML_SIDE;
-    private static final Color BG = Color.BLACK;
     
     private String[][] grid = new String[SIDE][SIDE];
     private String[][] grid1 = new String[SIDE][SIDE];
     private String[][] griddummy = new String[SIDE][SIDE];
-    
+     
     private JButton[][] buttons = new JButton[SIDE][SIDE];
     private JButton[][] buttons1 = new JButton[SIDE][SIDE];
     private JButton[][] buttons2 = new JButton[SIDE][SIDE];
@@ -346,8 +344,7 @@ public class GrilleConsole implements IGrille{
 			boolean moveBoat = true;
 			// TODO Auto-generated method stub
 			int x = 0,y = 0;
-	    	int response;
-	    	boolean test1 = false;
+			boolean test1 = false;
 	    	boolean test2 = false;
 			//Find the first occurence of the string to get the boat position
 	    	outerloop:
@@ -373,16 +370,24 @@ public class GrilleConsole implements IGrille{
 				
 				// In case the boat is vertical
 				if(down) {
-				    String[] options = new String[] {"Bas", "Haut"};
-				     response = JOptionPane.showOptionDialog(null, "Votre "+ aBateau.getNom()+" est en mouvement ! Où voulez-vous le déplacer ?", "Amiral, Déplacez votre navire !",
-					        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-					        null, options, options[0]);
-				     	
-						if(response == 0) {		
+					boolean matchFound = false;
+					String response1 = null;
+					Scanner scan = new Scanner(System.in);
+					Pattern p = Pattern .compile("([1-2])$");
+					System.out.println("Où souhaitez-vous bouger votre bâteau ? \n 1 - Gauche \n 2 - Droite");
+					while(!matchFound) { 
+						response1 = scan.nextLine();
+						Matcher m = p.matcher(response1);
+						matchFound = m.find();
+						if (!matchFound) {
+							System.out.println("Rentrez 1 ou 2 !");
+						} 
+					}
+						if(Integer.valueOf(response1) == 0) {		
 							if(buttons[x+aBateau.getSize()][y] != null) {
 								   if((!buttons[x+aBateau.getSize()][y].getText().contains("-") && !buttons[x+aBateau.getSize()][y].getText().contains("*")) || buttons[x+aBateau.getSize()][y].getForeground() == Color.red ) { 
 										moveBoat = false;
-										JOptionPane.showMessageDialog(null, "Déplacement impossible ! Essayez-en un autre. ");
+										System.out.println("Déplacement impossible ! Essayez-en un autre. ");
 										test1 = true;
 										break;
 									}
@@ -391,28 +396,32 @@ public class GrilleConsole implements IGrille{
 									}
 								
 								if(moveBoat) {
-									JOptionPane.showMessageDialog(null, "DEPLACEMENT EN COURS ");
+									System.out.println("DEPLACEMENT EN COURS ");
 									for(int j = x; j < aBateau.getSize()+x; j++ ) { 
 										buttons[j+1][y].setText(buttons[x][y].getText());
 										buttons[j+1][y].setForeground(Color.MAGENTA);
+										grid[j+1][y] = buttons[x][y].getText();
 									}
 										
 									buttons[x][y].setText("-");
 									buttons[x][y].setForeground(Color.black);
+									grid[x][y] = "-";
 									possiblemove = true;
 									aBateau.setABouger(true);
 						    		frame.repaint();//repaint a JFrame jframe in this case
+						    		showUI();
+
 								} 
 							} else { 
-								JOptionPane.showMessageDialog(null, "Vous ne pouvez partir du champ de bataille ! ");
+								System.out.println("Vous ne pouvez partir du champ de bataille ! ");
 								test1 = true;
 							}
 							
-							} else if (response == 1) {
+							} else if (Integer.valueOf(response1) == 1) {
 								if(buttons[x-1][y] != null) { 
 									if((!buttons[x-1][y].getText().contains("-") && !buttons[x-1][y].getText().contains("*")) || buttons[x-1][y].getForeground() == Color.red) { 
 											moveBoat = false;
-											JOptionPane.showMessageDialog(null, "Déplacement impossible ! Essayez-en un autre. ");
+											System.out.println("Déplacement impossible ! Essayez-en un autre. ");
 											test2 = true;
 											break;
 										}
@@ -421,27 +430,31 @@ public class GrilleConsole implements IGrille{
 										}
 									
 									if(moveBoat) {
-										JOptionPane.showMessageDialog(null, "DEPLACEMENT EN COURS ");
+										System.out.println("DEPLACEMENT EN COURS ");
 										for(int j = x-1; j < aBateau.getSize()+x; j++ ) { 
 											buttons[j][y].setText(buttons[x][y].getText());
 											buttons[j][y].setForeground(buttons[j+1][y].getForeground());
+											grid[j][y] = buttons[x][y].getText();
 										}
 											
 										buttons[x+aBateau.getSize()-1][y].setText("-");
 										buttons[x+aBateau.getSize()-1][y].setForeground(Color.black);
+										grid[x+aBateau.getSize()-1][y] = "-";
 										possiblemove = true;
 										aBateau.setABouger(true);
 							    		frame.repaint();//repaint a JFrame jframe in this case
+							    		showUI();
+
 									} 
 								} else { 
-									JOptionPane.showMessageDialog(null, "Déplacement impossible ! Essayez-en un autre. ");
+									System.out.println("Déplacement impossible ! Essayez-en un autre. ");
 									test2 = true;
 								}
 						} 
 						
 						 if(test1 && test2) { 
 							 possiblemove = true;
-							 JOptionPane.showMessageDialog(null, "Aucun déplacement possible, veuillez tirer avec ce bateau");
+							 System.out.println("Aucun déplacement possible, veuillez tirer avec ce bateau");
 						 }
 			    	
 						
@@ -450,15 +463,24 @@ public class GrilleConsole implements IGrille{
 				
 				// In case the boat is horizontal
 				if(right) {
-				    String[] options = new String[] {"Gauche", "Droite"};
-				     response = JOptionPane.showOptionDialog(null, "Votre "+ aBateau.getNom()+" est en mouvement ! Où voulez-vous le déplacer ?", "Amiral, Déplacez votre navire !",
-					        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-					        null, options, options[0]);
-						if(response == 0) {		
+						boolean matchFound = false;
+						String response1 = null;
+						Scanner scan = new Scanner(System.in);
+						Pattern p = Pattern .compile("([1-2])$");
+						System.out.println("Où souhaitez-vous bouger votre bâteau ? \n 1 - Gauche \n 2 - Droite");
+						while(!matchFound) { 
+							response1 = scan.nextLine();
+							Matcher m = p.matcher(response1);
+							matchFound = m.find();
+							if (!matchFound) {
+								System.out.println("Rentrez 1 ou 2 !");
+							} 
+						}
+						if(Integer.valueOf(response1) == 0) {		
 							 if(buttons[x][y-1] != null) {
 								   if((!buttons[x][y-1].getText().contains("-") && !buttons[x][y-1].getText().contains("*")) || buttons[x][y-1].getForeground() == Color.red) { 
 										moveBoat = false;
-										JOptionPane.showMessageDialog(null, "Déplacement impossible ! Essayez-en un autre. ");
+										System.out.println("Déplacement impossible ! Essayez-en un autre. ");
 										test1 = true;
 										break;
 									}
@@ -467,29 +489,33 @@ public class GrilleConsole implements IGrille{
 									}
 								
 								if(moveBoat) {
-									JOptionPane.showMessageDialog(null, "DEPLACEMENT EN COURS ");
+									System.out.println("DEPLACEMENT EN COURS ");
 									for(int j = y-1; j < aBateau.getSize()+y; j++ ) { 
 										buttons[x][j].setText(buttons[x][j+1].getText());
 										buttons[x][j].setForeground(Color.MAGENTA);
+										grid[x][j] = buttons[x][j+1].getText();
 									}
 										
 									buttons[x][y+aBateau.getSize()-1].setText("-");
 									buttons[x][y+aBateau.getSize()-1].setForeground(Color.black);
+									grid[x][y+aBateau.getSize()-1] = "-";
 									possiblemove = true;
 									aBateau.setABouger(true);
 						    		frame.repaint();//repaint a JFrame jframe in this case
+						    		showUI();
+
 								} 
 							}
 							 else { 
-									JOptionPane.showMessageDialog(null, "Vous ne pouvez partir du champ de bataille ! ");
+									System.out.println("Vous ne pouvez partir du champ de bataille ! ");
 									test1 = true;
 								} 
 				      } 
-				     else if (response == 1) {
+				     else if (Integer.valueOf(response1) == 1) {
 				    	 if(buttons[x][y+aBateau.getSize()] != null) {
 								if((!buttons[x][y+aBateau.getSize()].getText().contains("-") && !buttons[x][y+aBateau.getSize()].getText().contains("*")) || buttons[x][y+aBateau.getSize()].getForeground() == Color.red) { 
 										moveBoat = false;
-										JOptionPane.showMessageDialog(null, "Déplacement impossible ! Essayez-en un autre. ");
+										System.out.println("Déplacement impossible ! Essayez-en un autre. ");
 										test2 = true;
 										break;
 									}
@@ -498,24 +524,28 @@ public class GrilleConsole implements IGrille{
 									}
 								
 								if(moveBoat) {
-									JOptionPane.showMessageDialog(null, "DEPLACEMENT EN COURS ");
+									System.out.println("DEPLACEMENT EN COURS ");
 									for(int j = y+1; j < aBateau.getSize()+y+1; j++ ) { 
 										buttons[x][j].setText(buttons[x][j-1].getText());
+										grid[x][j] = buttons[x][j-1].getText();
 										buttons[x][j].setForeground(buttons[x][j-1].getForeground());
 									}
 										
 									buttons[x][y].setText("-");
 									buttons[x][y].setForeground(Color.black);
+									grid[x][y] = "-";
 									possiblemove = true;
 									aBateau.setABouger(true);
 						    		frame.repaint();//repaint a JFrame jframe in this case
+						    		showUI();
+
 								} 
 							
 						}  
 						
 						 if(test1 && test2) { 
 							 possiblemove = true;
-							 JOptionPane.showMessageDialog(null, "Aucun déplacement possible, veuillez tirer avec ce bateau");
+							 System.out.println("Aucun déplacement possible, veuillez tirer avec ce bateau");
 						 }
 			    	
 						
@@ -580,7 +610,6 @@ public class GrilleConsole implements IGrille{
 							if(buttons[x+aBateau.getSize()][y] != null) {
 								   if((!buttons[x+aBateau.getSize()][y].getText().contains("-") && !buttons[x+aBateau.getSize()][y].getText().contains("*")) || buttons[x+aBateau.getSize()][y].getForeground() == Color.red ) { 
 										moveBoat = false;
-										JOptionPane.showMessageDialog(null, "Déplacement impossible ! Essayez-en un autre. ");
 										test1 = true;
 										break;
 									}
@@ -589,20 +618,22 @@ public class GrilleConsole implements IGrille{
 									}
 								
 								if(moveBoat) {
-									JOptionPane.showMessageDialog(null, "DEPLACEMENT EN COURS ");
 									for(int j = x; j < aBateau.getSize()+x; j++ ) { 
 										buttons[j+1][y].setText(buttons[x][y].getText());
+										griddummy[j+1][y] = buttons[x][y].getText();
 										buttons[j+1][y].setForeground(Color.MAGENTA);
 									}
-										
+									
+									griddummy[x][y] = "-";
 									buttons[x][y].setText("-");
 									buttons[x][y].setForeground(Color.black);
 									possiblemove = true;
 									aBateau.setABouger(true);
 						    		frame.repaint();//repaint a JFrame jframe in this case
+						    		showUI();
+
 								} 
 							} else { 
-								JOptionPane.showMessageDialog(null, "Vous ne pouvez partir du champ de bataille ! ");
 								test1 = true;
 							}
 							
@@ -610,7 +641,6 @@ public class GrilleConsole implements IGrille{
 								if(buttons[x-1][y] != null) { 
 									if((!buttons[x-1][y].getText().contains("-") && !buttons[x-1][y].getText().contains("*")) || buttons[x-1][y].getForeground() == Color.red) { 
 											moveBoat = false;
-											JOptionPane.showMessageDialog(null, "Déplacement impossible ! Essayez-en un autre. ");
 											test2 = true;
 											break;
 										}
@@ -619,27 +649,28 @@ public class GrilleConsole implements IGrille{
 										}
 									
 									if(moveBoat) {
-										JOptionPane.showMessageDialog(null, "DEPLACEMENT EN COURS ");
 										for(int j = x-1; j < aBateau.getSize()+x; j++ ) { 
 											buttons[j][y].setText(buttons[x][y].getText());
 											buttons[j][y].setForeground(buttons[j+1][y].getForeground());
+											griddummy[j][y] = buttons[x][y].getText();
 										}
-											
+										
+										griddummy[x+aBateau.getSize()-1][y] = buttons[x][y].getText();
 										buttons[x+aBateau.getSize()-1][y].setText("-");
 										buttons[x+aBateau.getSize()-1][y].setForeground(Color.black);
 										possiblemove = true;
 										aBateau.setABouger(true);
 							    		frame.repaint();//repaint a JFrame jframe in this case
+							    		showUI();
+
 									} 
 								} else { 
-									JOptionPane.showMessageDialog(null, "Déplacement impossible ! Essayez-en un autre. ");
 									test2 = true;
 								}
 						} 
 						
 						 if(test1 && test2) { 
 							 possiblemove = true;
-							 JOptionPane.showMessageDialog(null, "Aucun déplacement possible, veuillez tirer avec ce bateau");
 						 }
 			    	
 						
@@ -653,7 +684,6 @@ public class GrilleConsole implements IGrille{
 							 if(buttons[x][y-1] != null) {
 								   if((!buttons[x][y-1].getText().contains("-") && !buttons[x][y-1].getText().contains("*")) || buttons[x][y-1].getForeground() == Color.red) { 
 										moveBoat = false;
-										JOptionPane.showMessageDialog(null, "Déplacement impossible ! Essayez-en un autre. ");
 										test1 = true;
 										break;
 									}
@@ -662,7 +692,6 @@ public class GrilleConsole implements IGrille{
 									}
 								
 								if(moveBoat) {
-									JOptionPane.showMessageDialog(null, "DEPLACEMENT EN COURS ");
 									for(int j = y-1; j < aBateau.getSize()+y; j++ ) { 
 										buttons[x][j].setText(buttons[x][j+1].getText());
 										buttons[x][j].setForeground(Color.MAGENTA);
@@ -673,10 +702,11 @@ public class GrilleConsole implements IGrille{
 									possiblemove = true;
 									aBateau.setABouger(true);
 						    		frame.repaint();//repaint a JFrame jframe in this case
+						    		showUI();
+
 								} 
 							}
 							 else { 
-									JOptionPane.showMessageDialog(null, "Vous ne pouvez partir du champ de bataille ! ");
 									test1 = true;
 								} 
 				      } 
@@ -684,7 +714,6 @@ public class GrilleConsole implements IGrille{
 				    	 if(buttons[x][y+1] != null) {
 								if((!buttons[x][y+aBateau.getSize()].getText().contains("-") && !buttons[x][y+aBateau.getSize()].getText().contains("*")) || buttons[x][y+aBateau.getSize()].getForeground() == Color.red) { 
 										moveBoat = false;
-										JOptionPane.showMessageDialog(null, "Déplacement impossible ! Essayez-en un autre. ");
 										test2 = true;
 										break;
 									}
@@ -693,7 +722,6 @@ public class GrilleConsole implements IGrille{
 									}
 								
 								if(moveBoat) {
-									JOptionPane.showMessageDialog(null, "DEPLACEMENT EN COURS ");
 									for(int j = y+1; j < aBateau.getSize()+y+1; j++ ) { 
 										buttons[x][j].setText(buttons[x][j-1].getText());
 										buttons[x][j].setForeground(buttons[x][j-1].getForeground());
@@ -704,13 +732,14 @@ public class GrilleConsole implements IGrille{
 									possiblemove = true;
 									aBateau.setABouger(true);
 						    		frame.repaint();//repaint a JFrame jframe in this case
+						    		showUI();
+
 								} 
 							
 						}  
 						
 						 if(test1 && test2) { 
 							 possiblemove = true;
-							 JOptionPane.showMessageDialog(null, "Aucun déplacement possible, veuillez tirer avec ce bateau");
 						 }
 			    	
 						
@@ -753,7 +782,21 @@ public class GrilleConsole implements IGrille{
 					entree = scan.nextLine();
 					Matcher m = p.matcher(entree);
 					matchFound = m.find();
-					if (!matchFound) {
+					 if (entree.contentEquals("save")) {
+						Fenetre.SaveGrilleConsole();
+					} else if (entree.contentEquals("load")) { 
+						Fenetre.chargerSaveConsole();
+						showUI();
+					} else if (entree.contentEquals("move") && !moved) { 
+						char c = getCurrentboat().getNom().toLowerCase().charAt(0);
+						String s =Character.toString(c);
+						checkPossibleMove(getCurrentboat(),s);
+						moved = true;
+					}
+					else if(moved) { 
+						System.out.println("Vous avez déjà bouger !");
+					}
+					else if (!matchFound) {
 						System.out.println("Mauvais format !");
 					} 
 				}
@@ -764,35 +807,18 @@ public class GrilleConsole implements IGrille{
 	  			grillex = Integer.valueOf(separated[1]);
 	  			grilley = Integer.valueOf(separated[2]);
 	  			if (Integer.valueOf(grillenumber) == 1 && (getButtons()[grillex][grilley].getText() == "-" || getButtons()[grillex][grilley].getText() == "*")) {
-	  			    JOptionPane.showMessageDialog(null, "Vous ne pouvez pas tirer sur vos alliés ! ");
+	  				System.out.println("Vous ne pouvez pas tirer sur vos alliés ! ");
 	  			    matchFound = false;
 	  			}
-	  			else if (Integer.valueOf(grillenumber) == 1 && getButtons()[grillex][grilley].getText().contains("c") && !moved && getCurrentboat().getNom() == "Cruiser") {
-	  				checkPossibleMove(currentboat,"c");
-	  				moved = true;
-	  			}
-	  			else if (Integer.valueOf(grillenumber) == 1 && getButtons()[grillex][grilley].getText().contains("d") && !moved && getCurrentboat().getNom() == "Destroyer") {
-	  				checkPossibleMove(getCurrentboat(),"d");
-	  				moved = true;
-	  			}
-	  			else if (Integer.valueOf(grillenumber) == 1 && getButtons()[grillex][grilley].getText().contains("b") && !moved && getCurrentboat().getNom() == "Battleship") {
-	  				checkPossibleMove(getCurrentboat(),"b");
-	  				moved = true;
-	  			}
-	  			else if (Integer.valueOf(grillenumber) == 1 && getButtons()[grillex][grilley].getText().contains("s") && !moved && getCurrentboat().getNom() == "Submarine") {
-	  				checkPossibleMove(getCurrentboat(),"s");
-	  				moved = true;
-	  			}
 	  			else if (Integer.valueOf(grillenumber) == 2 && getButtons1()[grillex][grilley].getForeground().equals(Color.red)) {
-	  				 JOptionPane.showMessageDialog(null, "Vous avez déjà tiré ici ! ");
+	  				 System.out.println("Vous avez déjà tiré ici ! ");
 	  				 matchFound = false;
 	  			}
 	  			else if (Integer.valueOf(grillenumber) == 1 && !(getButtons()[grillex][grilley].getText().charAt(0) == getCurrentboat().getNom().toLowerCase().charAt(0)) && !moved) {
-	  				JOptionPane.showMessageDialog(null, "Vous ne pouvez bouger le bateau que vous contrôler ! ");
+	  				System.out.println("Vous ne pouvez bouger le bateau que vous contrôler ! ");
 	  			}
 	  			else {
 	  				setCaseIsadv(true);
-
 	  			}
 	  		}
 	  			if (getButtons1()[grillex][grilley].getText().contains("-")) { 
@@ -824,7 +850,7 @@ public class GrilleConsole implements IGrille{
 			setCaseIsadv(false);
 			while(!isCaseIsadv()) {
 				Pattern p = Pattern .compile("([1-2])\\s(1[0-5]|[1-9])\\s(1[0-5]|[1-9])$");
-				System.out.println("Feu à volonté !");
+				System.out.println("Tir de fusée éclairante !");
 				while(!matchFound) { 
 					entree = scan.nextLine();
 					Matcher m = p.matcher(entree);
@@ -961,5 +987,17 @@ public class GrilleConsole implements IGrille{
 			// TODO Auto-generated method stub
 			this.currentboat = currentboat;
 		}
-		
+
+		public String[][] getGrid() {
+			// TODO Auto-generated method stub
+			return grid;
+		}
+
+		public String[][] getGrid1() {
+			return grid1;
+		}
+
+		public String[][] getGriddummy() {
+			return griddummy;
+		}
 }
