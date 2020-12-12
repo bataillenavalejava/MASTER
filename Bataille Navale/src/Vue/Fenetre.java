@@ -1,6 +1,5 @@
 package Vue;
 
-import javax.swing.*;
 
 import controleur.BatailleNavale;
 import modele.Destroyer;
@@ -13,6 +12,16 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+
 import Vue.Grille;
 
 public class Fenetre { 
@@ -31,7 +40,7 @@ public class Fenetre {
 	public Fenetre(Object obj) { 
 		this.affichage();	
 		this.cardL = new CardLayout();
-		this.SharedObject = obj;
+		Fenetre.SharedObject = obj;
 		g = new Grille(SharedObject);
 		g1 = new GrilleConsole(SharedObject);
 		frame1.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -167,6 +176,14 @@ public class Fenetre {
 			    	chargerSave();
 				    	}
 				    }
+		});
+		/* clic sur le choix Quitter du menu */
+		aide.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				new AideGraphique();
+			}
 		});
 		
 		frame1.pack();

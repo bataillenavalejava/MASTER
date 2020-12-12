@@ -9,12 +9,14 @@ import modele.Destroyer;
 import modele.SousMarin;
 
 import java.awt.Color;
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 
@@ -389,6 +391,7 @@ public class GrilleConsole implements IGrille{
 										moveBoat = false;
 										System.out.println("Déplacement impossible ! Essayez-en un autre. ");
 										test1 = true;
+										matchFound = false;
 										break;
 									}
 									else {
@@ -423,6 +426,7 @@ public class GrilleConsole implements IGrille{
 											moveBoat = false;
 											System.out.println("Déplacement impossible ! Essayez-en un autre. ");
 											test2 = true;
+											matchFound = false;
 											break;
 										}
 										else {
@@ -482,6 +486,7 @@ public class GrilleConsole implements IGrille{
 										moveBoat = false;
 										System.out.println("Déplacement impossible ! Essayez-en un autre. ");
 										test1 = true;
+										matchFound = false;
 										break;
 									}
 									else {
@@ -517,6 +522,7 @@ public class GrilleConsole implements IGrille{
 										moveBoat = false;
 										System.out.println("Déplacement impossible ! Essayez-en un autre. ");
 										test2 = true;
+										matchFound = false;
 										break;
 									}
 									else {
@@ -784,14 +790,19 @@ public class GrilleConsole implements IGrille{
 					matchFound = m.find();
 					 if (entree.contentEquals("save")) {
 						Fenetre.SaveGrilleConsole();
+						System.out.println("Feu à vonlonté !");
 					} else if (entree.contentEquals("load")) { 
 						Fenetre.chargerSaveConsole();
 						showUI();
+						System.out.println("Feu à vonlonté !");
 					} else if (entree.contentEquals("move") && !moved) { 
 						char c = getCurrentboat().getNom().toLowerCase().charAt(0);
 						String s =Character.toString(c);
 						checkPossibleMove(getCurrentboat(),s);
 						moved = true;
+						System.out.println("Feu à vonlonté !");
+					} else if (entree.contentEquals("help") && !moved) { 
+						showHelpConsole();
 					}
 					else if(moved) { 
 						System.out.println("Vous avez déjà bouger !");
@@ -832,6 +843,11 @@ public class GrilleConsole implements IGrille{
 	  				griddummy[grillex][grilley] = "x";
 	  				}
 	  			showUI();
+		}
+
+		private void showHelpConsole() {
+			// TODO Auto-generated method stub
+			new AideConsole();
 		}
 
 		private void setCaseClicked(String caseclicked) {
@@ -878,7 +894,7 @@ public class GrilleConsole implements IGrille{
 				if(i > 0 && i < 15 && y > 0 && y < 15) {
 					if(getButtons1()[i][y].getText() == "-") { 
 						setbuttondummy(i, y, "*", Color.MAGENTA);
-						griddummy[i][y] = "*";
+						griddummy[i][y] = "o";
 					}
 					else { 
 						setbuttondummy(i, y, getButtons1()[i][y].getText(), Color.MAGENTA);

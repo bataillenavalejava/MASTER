@@ -114,7 +114,6 @@ public class BatailleNavale {
 					jHumain.setAJouer(true); 
 		  			}
 		  		   else if(jHumain.getAJouer() == false){
-		  			System.out.println("ZEIFHJBEHIJZFBHIJZEBF HIJEZBF");
 		  			jHumain.nextBateau().tirer(grc);
 					jHumain.setAJouer(true);
 					grc.checkAliveBateau();

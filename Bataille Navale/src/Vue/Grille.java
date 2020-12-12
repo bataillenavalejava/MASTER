@@ -5,7 +5,12 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import modele.ABateau;
@@ -373,7 +378,7 @@ public class Grille implements ActionListener, IGrille {
 			System.out.println("L'IA tir !");
 			grillex = (int) (Math.random() * 15) + 1;
 			grilley = (int) (Math.random() * 15) + 1;
-		 }
+		}
 		if (getButtons()[grillex][grilley].getText().contentEquals("-")) { 
 			setbutton(grillex,grilley,"*", Color.red);
 		}
