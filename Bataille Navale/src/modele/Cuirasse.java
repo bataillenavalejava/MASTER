@@ -1,11 +1,11 @@
 package modele;
 
-public class Cuirasse extends ABateau{
+public class Cuirasse extends ABateau {
 
-
-		public Cuirasse(Object SharedObject) {
-			super(SharedObject);
-			this.taille = 7;
-			this.name = "Battleship";
-		}
+	public Cuirasse(Object SharedObject) {
+		super(SharedObject);
+		this.taille = 7;
+		this.name = "Battleship";
+		this.impactrange = 2;
+	}
 }

@@ -9,33 +9,11 @@ import modele.AJoueur;
 
 public interface IGrille {
 
-	void Tir();
+	void checkAliveBateau();
 
-	void TirFusee();
+	void checkPossibleMove(ABateau aBateau, String string);
 
-	void TirRandom();
-
-	void TirFuseeRandom();
-
-	ABateau getcJoueur();
-
-	ABateau getdJoueur();
-
-	ABateau getsJoueur();
-
-	ABateau getCrJoueur();
-
-	ABateau getcIA();
-
-	ABateau getdIA();
-
-	ABateau getsIA();
-
-	ABateau getCrIA();
-
-	String getCaseclicked();
-
-	void setCaseclicked(String caseclicked);
+	void checkPossibleMoveRandom(ABateau aBateau, String string);
 
 	JButton[][] getButtons();
 
@@ -43,26 +21,48 @@ public interface IGrille {
 
 	JButton[][] getButtonsdummy();
 
+	String getCaseclicked();
+
+	ABateau getcIA();
+
+	ABateau getcJoueur();
+
+	ABateau getCrIA();
+
+	ABateau getCrJoueur();
+
+	ABateau getCurrentboat();
+
+	ABateau getdIA();
+
+	ABateau getdJoueur();
+
+	ABateau getsIA();
+
+	ABateau getsJoueur();
+
+	boolean isCaseIsadv();
+
 	void setbutton(int i, int j, String string, Color color);
 
 	void setbutton1(int i, int j, String string, Color color);
 
 	void setbuttondummy(int i, int j, String string, Color color);
 
-	void checkAliveBateau();
-
-	void setWin(AJoueur j);
-
-	void checkPossibleMove(ABateau aBateau, String string);
-
-	void checkPossibleMoveRandom(ABateau aBateau, String string);
-
-	boolean isCaseIsadv();
+	void setCaseclicked(String caseclicked);
 
 	void setCaseIsadv(boolean caseIsadv);
 
-	ABateau getCurrentboat();
-
 	void setCurrentboat(ABateau currentboat);
+
+	void setWin(AJoueur j);
+
+	void Tir();
+
+	void TirFusee();
+
+	void TirFuseeRandom();
+
+	void TirRandom();
 
 }

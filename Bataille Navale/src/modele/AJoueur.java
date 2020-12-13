@@ -7,8 +7,8 @@ public abstract class AJoueur {
 	private boolean aJouer;
 	private String name;
 	private int pointeur = 1;
-	
-	public AJoueur(ABateau cJoueur, ABateau dJoueur, ABateau crJoueur, ABateau sJoueur, String name) { 
+
+	public AJoueur(ABateau cJoueur, ABateau dJoueur, ABateau crJoueur, ABateau sJoueur, String name) {
 		this.bateau.add(cJoueur);
 		this.bateau.add(dJoueur);
 		this.bateau.add(crJoueur);
@@ -17,28 +17,48 @@ public abstract class AJoueur {
 		this.name = name;
 	}
 
+	public boolean getAJouer() {
+		// TODO Auto-generated method stub
+		return aJouer;
+	}
+
 	public ArrayList<ABateau> getBateau() {
 		return bateau;
 	}
-	
+
+	public ABateau getBateaubyName(String s) {
+		// TODO Auto-generated method stub
+		ABateau b = null;
+		for (ABateau a : getBateau()) {
+			if (a.getNom() == s) {
+				b = a;
+			}
+		}
+		return b;
+	}
 
 	public ABateau getDestroyer() {
 		// TODO Auto-generated method stub
-		for (int i = 0; i<bateau.size(); i++) { 
-			if(bateau.get(i).getNom() == "Destroyer") {
+		for (int i = 0; i < bateau.size(); i++) {
+			if (bateau.get(i).getNom() == "Destroyer") {
 				return bateau.get(i);
 			}
-		};
+		}
+		;
 		return null;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	public ABateau nextBateau() {
-		// TODO Auto-generated method stub 
+		// TODO Auto-generated method stub
 		pointeur++;
 		if (pointeur == bateau.size()) {
 			pointeur = 0;
 		}
-		while(!bateau.get(pointeur).IsAlive) {
+		while (!bateau.get(pointeur).IsAlive) {
 			pointeur++;
 			if (pointeur == bateau.size()) {
 				pointeur = 0;
@@ -47,34 +67,14 @@ public abstract class AJoueur {
 		return bateau.get(pointeur);
 	}
 
-	public boolean getAJouer() {
-		// TODO Auto-generated method stub
-		return aJouer;
+	public void resetMoveBoat() {
+		for (ABateau b : bateau) {
+			b.aBouger = false;
+		}
 	}
 
 	public void setAJouer(boolean b) {
 		// TODO Auto-generated method stub
 		this.aJouer = b;
-	}
-
-	public ABateau getBateaubyName(String s) {
-		// TODO Auto-generated method stub
-		ABateau b = null;
-		for(ABateau a : getBateau()) { 
-			if(a.getNom() == s) { 
-				b = a;
-			}
-		}
-		return b;
-	}
-
-	public String getName() {
-		return name;
-	}
-	
-	public void resetMoveBoat() {
-		for(ABateau b : bateau) {
-			b.aBouger = false;
-		}
 	}
 }

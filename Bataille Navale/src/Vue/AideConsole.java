@@ -4,13 +4,13 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
-
 public class AideConsole {
 	public AideConsole() {
 		showImg();
 	}
+
 	/**
-	 * 
+	 *
 	 */
 	private void showImg() {
 		File myFile = new File("AideConsole.pdf");
@@ -22,6 +22,4 @@ public class AideConsole {
 			e.printStackTrace();
 		}
 	}
-
-
 }

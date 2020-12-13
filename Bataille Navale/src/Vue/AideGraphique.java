@@ -8,8 +8,9 @@ public class AideGraphique {
 	public AideGraphique() {
 		showImg();
 	}
+
 	/**
-	 * 
+	 *
 	 */
 	private void showImg() {
 		File myFile = new File("AideGraphique.pdf");
@@ -21,6 +22,5 @@ public class AideGraphique {
 			e.printStackTrace();
 		}
 	}
-
 
 }
