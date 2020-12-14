@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package Vue;
 
 import java.awt.CardLayout;
@@ -24,14 +27,29 @@ import javax.swing.WindowConstants;
 import controleur.BatailleNavale;
 import modele.Destroyer;
 
+/**
+ * The Class Fenetre.
+ */
 public class Fenetre {
 
+	/** The g. */
 	private static Grille g;
+
+	/** The g 1. */
 	private static GrilleConsole g1;
+
+	/** The Constant ddefault. */
 	private static final Dimension ddefault = new Dimension(1400, 800);
+
+	/** The Constant dmin. */
 	private static final Dimension dmin = new Dimension(1400, 800);
+
+	/** The Shared object. */
 	private static Object SharedObject;
 
+	/**
+	 * Charger save.
+	 */
 	public static void chargerSave() {
 		// TODO Auto-generated method stub
 		g.setCaseclicked(null);
@@ -115,6 +133,9 @@ public class Fenetre {
 		}
 	}
 
+	/**
+	 * Charger save console.
+	 */
 	public static void chargerSaveConsole() {
 		// TODO Auto-generated method stub
 		synchronized (SharedObject) {
@@ -200,6 +221,9 @@ public class Fenetre {
 		}
 	}
 
+	/**
+	 * Save grille console.
+	 */
 	public static void SaveGrilleConsole() {
 		try {
 
@@ -320,16 +344,27 @@ public class Fenetre {
 		}
 	}
 
+	/** The card L. */
 	@SuppressWarnings("unused")
 	private CardLayout cardL;
+
+	/** The grille is set. */
 	private boolean grilleIsSet = false;
 
+	/** The grille console is set. */
 	private boolean grilleConsoleIsSet = false;
 
+	/** The label. */
 	private JLabel label = new JLabel("A vous de jouer !");
 
+	/** The frame 1. */
 	private JFrame frame1;
 
+	/**
+	 * Instantiates a new fenetre.
+	 *
+	 * @param obj the obj
+	 */
 	public Fenetre(Object obj) {
 		this.affichage();
 		this.cardL = new CardLayout();
@@ -340,6 +375,9 @@ public class Fenetre {
 
 	}
 
+	/**
+	 * Affichage.
+	 */
 	public void affichage() {
 		{
 			/* Création des composants */
@@ -513,30 +551,58 @@ public class Fenetre {
 		}
 	}
 
+	/**
+	 * Gets the g.
+	 *
+	 * @return the g
+	 */
 	public IGrille getG() {
 		return g;
 	}
 
+	/**
+	 * Gets the gc.
+	 *
+	 * @return the gc
+	 */
 	public GrilleConsole getGC() {
 		// TODO Auto-generated method stub
 		return g1;
 	}
 
+	/**
+	 * Gets the panel.
+	 *
+	 * @return the panel
+	 */
 	public JFrame getPanel() {
 		// TODO Auto-generated method stub
 		return this.frame1;
 	}
 
+	/**
+	 * Checks if is grille console is set.
+	 *
+	 * @return true, if is grille console is set
+	 */
 	public boolean isGrilleConsoleIsSet() {
 		// TODO Auto-generated method stub
 		return grilleConsoleIsSet;
 	}
 
+	/**
+	 * Checks if is grille is set.
+	 *
+	 * @return true, if is grille is set
+	 */
 	public boolean isGrilleIsSet() {
 		// TODO Auto-generated method stub
 		return grilleIsSet;
 	}
 
+	/**
+	 * Save grille.
+	 */
 	public void SaveGrille() {
 		try {
 
@@ -657,6 +723,11 @@ public class Fenetre {
 		}
 	}
 
+	/**
+	 * Sets the label.
+	 *
+	 * @param string the new label
+	 */
 	public void setLabel(String string) {
 		// TODO Auto-generated method stub
 		label.setText(string);

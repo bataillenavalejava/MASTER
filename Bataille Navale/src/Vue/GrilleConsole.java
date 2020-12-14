@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package Vue;
 
 import java.awt.Color;
@@ -15,35 +18,79 @@ import modele.Cuirasse;
 import modele.Destroyer;
 import modele.SousMarin;
 
+/**
+ * The Class GrilleConsole.
+ */
 public class GrilleConsole implements IGrille {
 
+	/** The Constant SML_SIDE. */
 	private static final int SML_SIDE = 15;
+
+	/** The Constant SIDE. */
 	private static final int SIDE = SML_SIDE * SML_SIDE;
 
+	/** The grid. */
 	private String[][] grid = new String[SIDE][SIDE];
+
+	/** The grid 1. */
 	private String[][] grid1 = new String[SIDE][SIDE];
+
+	/** The griddummy. */
 	private String[][] griddummy = new String[SIDE][SIDE];
 
+	/** The buttons. */
 	private JButton[][] buttons = new JButton[SIDE][SIDE];
+
+	/** The buttons 1. */
 	private JButton[][] buttons1 = new JButton[SIDE][SIDE];
+
+	/** The buttons 2. */
 	private JButton[][] buttons2 = new JButton[SIDE][SIDE];
 
+	/** The frame. */
 	private JInternalFrame frame = new JInternalFrame("Bienvenue sur la Bataille Navale ! ");
 
+	/** The c joueur. */
 	private ABateau cJoueur;
+
+	/** The d joueur. */
 	private ABateau dJoueur;
+
+	/** The s joueur. */
 	private ABateau sJoueur;
+
+	/** The cr joueur. */
 	private ABateau crJoueur;
 
+	/** The c IA. */
 	private ABateau cIA;
+
+	/** The d IA. */
 	private ABateau dIA;
+
+	/** The s IA. */
 	private ABateau sIA;
+
+	/** The cr IA. */
 	private ABateau crIA;
+
+	/** The Shared object. */
 	private final Object SharedObject;
+
+	/** The caseclicked. */
 	private String caseclicked;
+
+	/** The case isadv. */
 	private boolean caseIsadv = false;
+
+	/** The currentboat. */
 	private ABateau currentboat;
 
+	/**
+	 * Instantiates a new grille console.
+	 *
+	 * @param obj the obj
+	 */
 	public GrilleConsole(Object obj) {
 		this.SharedObject = obj;
 		cJoueur = new Cuirasse(SharedObject);
@@ -57,6 +104,13 @@ public class GrilleConsole implements IGrille {
 		crIA = new Croiseur(SharedObject);
 	}
 
+	/**
+	 * Adds the A bateau.
+	 *
+	 * @param dJoueur the d joueur
+	 * @param buttons the buttons
+	 * @param grid    the grid
+	 */
 	private void AddABateau(ABateau dJoueur, JButton[][] buttons, String[][] grid) {
 		// TODO Auto-generated method stub
 
@@ -113,6 +167,9 @@ public class GrilleConsole implements IGrille {
 
 	}
 
+	/**
+	 * Adds the bateau IA.
+	 */
 	protected void AddBateauIA() {
 		// TODO Auto-generated method stub
 		AddABateau(cIA, buttons1, grid1);
@@ -121,6 +178,9 @@ public class GrilleConsole implements IGrille {
 		AddABateau(crIA, buttons1, grid1);
 	}
 
+	/**
+	 * Adds the bateau joueur.
+	 */
 	protected void AddBateauJoueur() {
 		// TODO Auto-generated method stub
 		AddABateau(cJoueur, buttons, grid);
@@ -129,6 +189,9 @@ public class GrilleConsole implements IGrille {
 		AddABateau(crJoueur, buttons, grid);
 	}
 
+	/**
+	 * Check alive bateau.
+	 */
 	@Override
 	public void checkAliveBateau() {
 		// TODO Auto-generated method stub
@@ -170,6 +233,12 @@ public class GrilleConsole implements IGrille {
 		}
 	}
 
+	/**
+	 * Check possible move.
+	 *
+	 * @param aBateau the a bateau
+	 * @param string  the string
+	 */
 	@Override
 	public void checkPossibleMove(ABateau aBateau, String string) {
 		// TODO Auto-generated method stub
@@ -188,6 +257,12 @@ public class GrilleConsole implements IGrille {
 		}
 	}
 
+	/**
+	 * Check possible move random.
+	 *
+	 * @param aBateau the a bateau
+	 * @param string  the string
+	 */
 	@Override
 	public void checkPossibleMoveRandom(ABateau aBateau, String string) {
 		// TODO Auto-generated method stub
@@ -206,6 +281,9 @@ public class GrilleConsole implements IGrille {
 		}
 	}
 
+	/**
+	 * Clear console.
+	 */
 	private void ClearConsole() {
 		// TODO Auto-generated method stub
 		System.out.println();
@@ -213,6 +291,9 @@ public class GrilleConsole implements IGrille {
 		System.out.println();
 	}
 
+	/**
+	 * Createand show UI.
+	 */
 	protected void CreateandShowUI() {
 
 		for (int i = 1; i < 16; i++) {
@@ -270,92 +351,183 @@ public class GrilleConsole implements IGrille {
 
 	}
 
+	/**
+	 * Gets the buttons.
+	 *
+	 * @return the buttons
+	 */
 	@Override
 	public JButton[][] getButtons() {
 		return buttons;
 	}
 
+	/**
+	 * Gets the buttons 1.
+	 *
+	 * @return the buttons 1
+	 */
 	@Override
 	public JButton[][] getButtons1() {
 		return buttons1;
 	}
 
+	/**
+	 * Gets the buttonsdummy.
+	 *
+	 * @return the buttonsdummy
+	 */
 	@Override
 	public JButton[][] getButtonsdummy() {
 		return buttons2;
 	}
 
+	/**
+	 * Gets the caseclicked.
+	 *
+	 * @return the caseclicked
+	 */
 	@Override
 	public String getCaseclicked() {
 		// TODO Auto-generated method stub
 		return this.caseclicked;
 	}
 
+	/**
+	 * Gets the c IA.
+	 *
+	 * @return the c IA
+	 */
 	@Override
 	public ABateau getcIA() {
 		return cIA;
 	}
 
+	/**
+	 * Gets the c joueur.
+	 *
+	 * @return the c joueur
+	 */
 	@Override
 	public ABateau getcJoueur() {
 		return cJoueur;
 	}
 
+	/**
+	 * Gets the cr IA.
+	 *
+	 * @return the cr IA
+	 */
 	@Override
 	public ABateau getCrIA() {
 		return crIA;
 	}
 
+	/**
+	 * Gets the cr joueur.
+	 *
+	 * @return the cr joueur
+	 */
 	@Override
 	public ABateau getCrJoueur() {
 		return crJoueur;
 	}
 
+	/**
+	 * Gets the currentboat.
+	 *
+	 * @return the currentboat
+	 */
 	@Override
 	public ABateau getCurrentboat() {
 		// TODO Auto-generated method stub
 		return this.currentboat;
 	}
 
+	/**
+	 * Gets the d IA.
+	 *
+	 * @return the d IA
+	 */
 	@Override
 	public ABateau getdIA() {
 		return dIA;
 	}
 
+	/**
+	 * Gets the d joueur.
+	 *
+	 * @return the d joueur
+	 */
 	@Override
 	public ABateau getdJoueur() {
 		return dJoueur;
 	}
 
+	/**
+	 * Gets the grid.
+	 *
+	 * @return the grid
+	 */
 	public String[][] getGrid() {
 		// TODO Auto-generated method stub
 		return grid;
 	}
 
+	/**
+	 * Gets the grid 1.
+	 *
+	 * @return the grid 1
+	 */
 	public String[][] getGrid1() {
 		return grid1;
 	}
 
+	/**
+	 * Gets the griddummy.
+	 *
+	 * @return the griddummy
+	 */
 	public String[][] getGriddummy() {
 		return griddummy;
 	}
 
+	/**
+	 * Gets the s IA.
+	 *
+	 * @return the s IA
+	 */
 	@Override
 	public ABateau getsIA() {
 		return sIA;
 	}
 
+	/**
+	 * Gets the s joueur.
+	 *
+	 * @return the s joueur
+	 */
 	@Override
 	public ABateau getsJoueur() {
 		return sJoueur;
 	}
 
+	/**
+	 * Checks if is case isadv.
+	 *
+	 * @return true, if is case isadv
+	 */
 	@Override
 	public boolean isCaseIsadv() {
 		// TODO Auto-generated method stub
 		return this.caseIsadv;
 	}
 
+	/**
+	 * Move boat.
+	 *
+	 * @param aBateau the a bateau
+	 * @param s       the s
+	 */
 	private void MoveBoat(ABateau aBateau, String s) {
 		boolean moveBoat = true;
 		// TODO Auto-generated method stub
@@ -572,6 +744,12 @@ public class GrilleConsole implements IGrille {
 
 	}
 
+	/**
+	 * Move boat random.
+	 *
+	 * @param aBateau the a bateau
+	 * @param s       the s
+	 */
 	private void MoveBoatRandom(ABateau aBateau, String s) {
 		// TODO Auto-generated method stub
 		boolean moveBoat = true;
@@ -746,6 +924,14 @@ public class GrilleConsole implements IGrille {
 
 	}
 
+	/**
+	 * Setbutton.
+	 *
+	 * @param i      the i
+	 * @param j      the j
+	 * @param string the string
+	 * @param color  the color
+	 */
 	@Override
 	public void setbutton(int i, int j, String string, Color color) {
 		// TODO Auto-generated method stub
@@ -754,6 +940,14 @@ public class GrilleConsole implements IGrille {
 		frame.repaint();// repaint a JFrame jframe in this case
 	}
 
+	/**
+	 * Setbutton 1.
+	 *
+	 * @param i      the i
+	 * @param j      the j
+	 * @param string the string
+	 * @param color  the color
+	 */
 	@Override
 	public void setbutton1(int i, int j, String string, Color color) {
 		// TODO Auto-generated method stub
@@ -762,6 +956,14 @@ public class GrilleConsole implements IGrille {
 		frame.repaint();// repaint a JFrame jframe in this case
 	}
 
+	/**
+	 * Setbuttondummy.
+	 *
+	 * @param i      the i
+	 * @param j      the j
+	 * @param string the string
+	 * @param color  the color
+	 */
 	@Override
 	public void setbuttondummy(int i, int j, String string, Color color) {
 		// TODO Auto-generated method stub
@@ -770,28 +972,53 @@ public class GrilleConsole implements IGrille {
 		frame.repaint();// repaint a JFrame jframe in this case
 	}
 
+	/**
+	 * Sets the caseclicked.
+	 *
+	 * @param caseclicked the new caseclicked
+	 */
 	@Override
 	public void setCaseclicked(String caseclicked) {
 		this.caseclicked = caseclicked;
 	}
 
+	/**
+	 * Sets the case clicked.
+	 *
+	 * @param caseclicked the new case clicked
+	 */
 	private void setCaseClicked(String caseclicked) {
 		// TODO Auto-generated method stub
 		this.caseclicked = caseclicked;
 	}
 
+	/**
+	 * Sets the case isadv.
+	 *
+	 * @param caseIsadv the new case isadv
+	 */
 	@Override
 	public void setCaseIsadv(boolean caseIsadv) {
 		// TODO Auto-generated method stub
 		this.caseIsadv = caseIsadv;
 	}
 
+	/**
+	 * Sets the currentboat.
+	 *
+	 * @param currentboat the new currentboat
+	 */
 	@Override
 	public void setCurrentboat(ABateau currentboat) {
 		// TODO Auto-generated method stub
 		this.currentboat = currentboat;
 	}
 
+	/**
+	 * Sets the win.
+	 *
+	 * @param j the new win
+	 */
 	@Override
 	public void setWin(AJoueur j) {
 		// TODO Auto-generated method stub
@@ -803,11 +1030,17 @@ public class GrilleConsole implements IGrille {
 
 	}
 
+	/**
+	 * Show help console.
+	 */
 	private void showHelpConsole() {
 		// TODO Auto-generated method stub
 		new AideConsole();
 	}
 
+	/**
+	 * Show UI.
+	 */
 	public void showUI() {
 		// TODO Auto-generated method stub
 		ClearConsole();
@@ -823,6 +1056,9 @@ public class GrilleConsole implements IGrille {
 		}
 	}
 
+	/**
+	 * Tir.
+	 */
 	@Override
 	public void Tir() {
 		// TODO Auto-generated method stub
@@ -904,6 +1140,9 @@ public class GrilleConsole implements IGrille {
 
 	}
 
+	/**
+	 * Tir fusee.
+	 */
 	@Override
 	public void TirFusee() {
 		// TODO Auto-generated method stub
@@ -954,6 +1193,9 @@ public class GrilleConsole implements IGrille {
 
 	}
 
+	/**
+	 * Tir fusee random.
+	 */
 	@Override
 	public void TirFuseeRandom() {
 		// TODO Auto-generated method stub
@@ -975,6 +1217,9 @@ public class GrilleConsole implements IGrille {
 		}
 	}
 
+	/**
+	 * Tir random.
+	 */
 	@Override
 	public void TirRandom() {
 		// TODO Auto-generated method stub

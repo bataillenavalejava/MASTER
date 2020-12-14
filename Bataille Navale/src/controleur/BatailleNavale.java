@@ -20,11 +20,15 @@ public class BatailleNavale {
 		return play;
 	}
 
+	/**
+	 * @param args
+	 * @throws InterruptedException
+	 * start the game Naval Battle 
+	 */
 	public static void main(String[] args) throws InterruptedException {
 		final Object sharedObject = new Object();
 		Fenetre f = new Fenetre(sharedObject);
 		while (true) {
-			System.out.println("IN PAUSE");
 			Thread.sleep(200);
 			while (play) {
 				boolean fenetreisSet = false;
@@ -34,7 +38,6 @@ public class BatailleNavale {
 				jHumain = new JoueurHumain(gr.getcJoueur(), gr.getdJoueur(), gr.getCrJoueur(), gr.getsJoueur());
 				jIA = new JoueurIA(gr.getcIA(), gr.getdIA(), gr.getCrIA(), gr.getsIA());
 				while (!fenetreisSet && !fenetreisSetConsole) {
-					System.out.println("Test");
 					fenetreisSet = f.isGrilleIsSet();
 					fenetreisSetConsole = f.isGrilleConsoleIsSet();
 					Thread.sleep(100);
@@ -179,6 +182,9 @@ public class BatailleNavale {
 		}
 	}
 
+	/**
+	 * reset game state
+	 */
 	public static void resetGameState() {
 		jHumain.setAJouer(false);
 		jIA.setAJouer(false);
@@ -189,6 +195,9 @@ public class BatailleNavale {
 		AJoueur jIA = null;
 	}
 
+	/**
+	 * @param play : set the game play value to true or false
+	 */
 	public static void setPlay(boolean play) {
 		BatailleNavale.play = play;
 	}
